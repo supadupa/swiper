@@ -24,19 +24,21 @@ export default function onResize() {
 
   swiper.updateSlidesClasses();
   const isVirtualLoop = isVirtual && params.loop;
-  if (
-    (params.slidesPerView === 'auto' || params.slidesPerView > 1) &&
-    swiper.isEnd &&
-    !swiper.isBeginning &&
-    !swiper.params.centeredSlides &&
-    !isVirtualLoop
-  ) {
-    swiper.slideTo(swiper.slides.length - 1, 0, false, true);
-  } else {
-    if (swiper.params.loop && !isVirtual) {
-      swiper.slideToLoop(swiper.realIndex, 0, false, true);
+  if (params.slideOnResize) {
+    if (
+      (params.slidesPerView === 'auto' || params.slidesPerView > 1) &&
+      swiper.isEnd &&
+      !swiper.isBeginning &&
+      !swiper.params.centeredSlides &&
+      !isVirtualLoop
+    ) {
+      swiper.slideTo(swiper.slides.length - 1, 0, false, true);
     } else {
-      swiper.slideTo(swiper.activeIndex, 0, false, true);
+      if (swiper.params.loop && !isVirtual) {
+        swiper.slideToLoop(swiper.realIndex, 0, false, true);
+      } else {
+        swiper.slideTo(swiper.activeIndex, 0, false, true);
+      }
     }
   }
 

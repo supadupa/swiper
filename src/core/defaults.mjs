@@ -137,6 +137,8 @@ export default {
   // Callbacks
   runCallbacksOnInit: true,
 
+  slideOnResize: true,
+
   // Internals
   _emitClasses: false,
 };
