@@ -6,7 +6,7 @@ function checkOverflow() {
   if (slidesOffsetBefore) {
     const lastSlideIndex = swiper.slides.length - 1;
     const lastSlideRightEdge =
-      swiper.slidesGrid[lastSlideIndex] +
+      (swiper.slidesGrid[lastSlideIndex] - swiper.slidesGrid[0]) +
       swiper.slidesSizesGrid[lastSlideIndex] +
       slidesOffsetBefore * 2;
     swiper.isLocked = swiper.size > lastSlideRightEdge;
