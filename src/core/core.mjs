@@ -343,18 +343,19 @@ class Swiper {
     if (typeof params.slidesPerView === 'number') return params.slidesPerView;
 
     if (params.centeredSlides) {
-      let slideSize = slides[activeIndex] ? Math.ceil(slides[activeIndex].swiperSlideSize) : 0;
+      let spaceBetween = params.spaceBetween || 0
+      let slideSize = slides[activeIndex] ? Math.ceil(slides[activeIndex].swiperSlideSize + spaceBetween) : 0;
       let breakLoop;
       for (let i = activeIndex + 1; i < slides.length; i += 1) {
         if (slides[i] && !breakLoop) {
-          slideSize += Math.ceil(slides[i].swiperSlideSize);
+          slideSize += Math.ceil(slides[i].swiperSlideSize + spaceBetween);
           spv += 1;
           if (slideSize > swiperSize) breakLoop = true;
         }
       }
       for (let i = activeIndex - 1; i >= 0; i -= 1) {
         if (slides[i] && !breakLoop) {
-          slideSize += slides[i].swiperSlideSize;
+          slideSize += slides[i].swiperSlideSize + spaceBetween;
           spv += 1;
           if (slideSize > swiperSize) breakLoop = true;
         }
