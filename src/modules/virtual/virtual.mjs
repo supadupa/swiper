@@ -212,7 +212,7 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
         swiper.slidesEl.prepend(renderSlide(slides[index], index));
       });
     }
-    elementChildren(swiper.slidesEl, '.swiper-slide, swiper-slide').forEach((slideEl) => {
+    elementChildren(swiper.slidesEl, `.${swiper.params.slideClass}, swiper-slide`).forEach((slideEl) => {
       slideEl.style[offsetProp] = `${offset - Math.abs(swiper.cssOverflowAdjustment())}px`;
     });
     onRendered();
