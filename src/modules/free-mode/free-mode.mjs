@@ -213,6 +213,16 @@ export default function freeMode({ swiper, extendParams, emit, once }) {
       return;
     } else if (params.freeMode) {
       emit('_freeModeNoMomentumRelease');
+      // --- start of patch ---
+      // this is a patch to fix a click event triggered at the end of the interaction
+      if (!swiper.animating) {
+        swiper.animating = true;
+        requestAnimationFrame(() => {
+          if (!swiper || swiper.destroyed) return;
+          swiper.animating = false;
+        })
+      }
+      // --- end of patch ---
     }
 
     if (!params.freeMode.momentum || timeDiff >= params.longSwipesMs) {
