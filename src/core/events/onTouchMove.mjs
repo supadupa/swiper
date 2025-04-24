@@ -241,10 +241,7 @@ export default function onTouchMove(event) {
       data.currentTranslate >
         (params.centeredSlides
           ? swiper.minTranslate() -
-            swiper.slidesSizesGrid[swiper.activeIndex + 1] -
-            (params.slidesPerView !== 'auto' && swiper.slides.length - params.slidesPerView >= 2
-              ? swiper.slidesSizesGrid[swiper.activeIndex + 1] + swiper.params.spaceBetween
-              : 0) -
+            swiper.slidesSizesGrid[swiper.activeIndex + 1] * Math.max(1, Math.ceil((swiper.slidesPerViewDynamic() - 1)/ 2)) -
             swiper.params.spaceBetween
           : swiper.minTranslate())
     ) {
@@ -268,12 +265,8 @@ export default function onTouchMove(event) {
       data.currentTranslate <
         (params.centeredSlides
           ? swiper.maxTranslate() +
-            swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1] +
-            swiper.params.spaceBetween +
-            (params.slidesPerView !== 'auto' && swiper.slides.length - params.slidesPerView >= 2
-              ? swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1] +
-                swiper.params.spaceBetween
-              : 0)
+            swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1] * Math.max(1, Math.ceil((swiper.slidesPerViewDynamic() - 1)/ 2)) +
+            swiper.params.spaceBetween
           : swiper.maxTranslate())
     ) {
       swiper.loopFix({
