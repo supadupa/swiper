@@ -6,6 +6,10 @@
   "scripts": {
     "build": "node scripts/build",
     "build:prod": "node scripts/build --prod",
+    "build:sauce": "npm run build:prod && npm run cp:sauce",
+    "cp:sauce": "npm run cp:sauce:css && npm run cp:sauce:js",
+    "cp:sauce:css": "cp dist/swiper-bundle.min.css ../sauce/vendor/assets/stylesheets/swiper-bundle.min.css",
+    "cp:sauce:js": "cp dist/swiper-bundle.js dist/swiper-bundle.min.js ../sauce/vendor/assets/javascripts/ && printf '\\nmodule.exports = Swiper;\\n' >> ../sauce/vendor/assets/javascripts/swiper-bundle.js && printf '\\nmodule.exports = Swiper;\\n' >> ../sauce/vendor/assets/javascripts/swiper-bundle.min.js",
     "build-icons-font": "python ./scripts/icon-font/generate.py",
     "watch": "node scripts/watch",
     "demos": "npm run build && concurrently --kill-others \"vite ./demos/\" \"npm run watch\" ",

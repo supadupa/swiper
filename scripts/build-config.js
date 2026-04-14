@@ -28,6 +28,10 @@ export const modules = envBuildModules || [
   // 'effect-cards',
 ];
 
+// Replace .swiper- class prefix in output CSS to avoid conflicts with other Swiper instances
+export const cssClassPrefix = 'snpt-swiper';
+
 export default {
   modules,
+  cssClassPrefix,
 };

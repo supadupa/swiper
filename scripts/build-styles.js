@@ -41,6 +41,13 @@ const readSwiperFile = async (filePath) => {
   }
   return fileContent;
 };
+const applyCssClassPrefix = (css) => {
+  if (config.cssClassPrefix && config.cssClassPrefix !== 'swiper') {
+    return css.replaceAll('.swiper-', `.${config.cssClassPrefix}-`);
+  }
+  return css;
+};
+
 const buildCSS = async ({ isBundle, modules, minified }) => {
   let lessContent = await fs.readFile(path.resolve(__dirname, '../src/swiper.less'), 'utf8');
   lessContent = lessContent.replace(
@@ -50,11 +57,12 @@ const buildCSS = async ({ isBundle, modules, minified }) => {
       : modules.map((mod) => `@import url('./modules/${mod}/${mod}.less');`).join('\n'),
   );
 
-  const cssContent = await autoprefixer(
+  let cssContent = await autoprefixer(
     await less(lessContent, path.resolve(__dirname, '../src')),
   ).catch((err) => {
     throw err;
   });
+  cssContent = applyCssClassPrefix(cssContent);
   const fileName = isBundle ? 'swiper-bundle' : 'swiper';
   // Write file
   await fs.ensureDir(`./${outputDir}`);
@@ -112,8 +120,9 @@ export default async function buildStyles() {
         const lessContent = await less(content, path.dirname(filePath)).catch((err) => {
           throw new Error(`${filePath}: ${err}`);
         });
-        const resultCSS = await autoprefixer(lessContent);
-        const resultCSSElement = proceedReplacements(getSplittedCSS(resultCSS).container);
+        const rawCSS = await autoprefixer(lessContent);
+        const resultCSS = applyCssClassPrefix(rawCSS);
+        const resultCSSElement = applyCssClassPrefix(proceedReplacements(getSplittedCSS(rawCSS).container));
         const resultFilePath = filePath.replace(/\.less$/, '');
         const minifiedCSS = await minifyCSS(resultCSS);
         const minifiedCSSElement = await minifyCSS(resultCSSElement);
